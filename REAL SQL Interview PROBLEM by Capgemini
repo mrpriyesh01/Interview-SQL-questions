@@ -1,0 +1,40 @@
+create table lifts
+(
+      id         	  int,
+     capacity_kg   int
+);
+
+insert into lifts values (1, 300);
+insert into lifts values (2, 350);
+
+create table lift_passengers
+(
+      passenger_name    varchar(50),
+      weight_kg     	  int,
+	     lift_id			    int
+);
+
+insert into lift_passengers values ('Rahul', 85, 1);
+insert into lift_passengers values ('Adarsh', 73, 1);
+insert into lift_passengers values ('Riti', 95, 1);
+insert into lift_passengers values ('Dheeraj', 80, 1);
+insert into lift_passengers values ('Vimal', 83, 2);
+insert into lift_passengers values ('Neha', 77, 2);
+insert into lift_passengers values ('Priti', 73, 2);
+insert into lift_passengers values ('Himanshi', 85, 2);
+
+
+code=
+WITH Cte AS (
+    SELECT *
+           ,SUM(weight_Kg) OVER (PARTITION BY id ORDER BY id, weight_Kg) as cum_sum
+           ,CASE WHEN weight_Kg >= SUM(weight_Kg) OVER (PARTITION BY id ORDER BY id, weight_Kg) THEN 1 ELSE 0 END AS Flag
+    FROM left l
+    join left_passenger p on l.id=p.left_id
+order by id,weight_kg
+)
+SELECT left_id,
+       STRING_AGG(passengers.name, ', ') AS passengers
+FROM Cte
+WHERE Flag = 1
+GROUP BY left_id;
