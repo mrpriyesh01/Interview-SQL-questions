@@ -1,0 +1,19 @@
+EmployeeID	EmployeeName	Salary	ManagerID
+1	           Alice	      50000	      3
+2           	Bob	        60000     	3
+3	           Carol	      70000	     NULL
+4           	Dave	      55000	      1
+5	             Eve	      45000	      2 
+
+SELECT
+e1.EmployeeID AS e1_EmployeeID,
+e1.EmployeeName AS e1_EmployeeName,
+e1.Salary AS e1_Salary
+FROM
+Employee e1
+JOIN
+Employee e2
+ON
+e1.ManagerID = e2.EmployeeID
+WHERE
+e1.Salary > e2.Salary;
