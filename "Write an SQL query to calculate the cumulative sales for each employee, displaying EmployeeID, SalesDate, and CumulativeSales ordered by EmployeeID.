@@ -1,0 +1,19 @@
+QUESTION="Write an SQL query to calculate the cumulative sales for each employee, displaying EmployeeID, SalesDate, and CumulativeSales ordered by EmployeeID.
+EmployeeID	SalesDate	SalesAmount
+1	 2023-09-01	100
+1	2023-09-05	200
+1	2023-09-10	150
+2	2023-09-02	300
+2	2023-09-06	100
+3	2023-09-03	250
+3	2023-09-07	350
+
+code=
+SELECT 
+    EmployeeID,
+    SalesDate,
+    SUM(SalesAmount) OVER(PARTITION BY EmployeeID ORDER BY SalesDate) AS CumulativeSales
+FROM 
+    SalesTable
+ORDER BY 
+    EmployeeID, SalesDate;
